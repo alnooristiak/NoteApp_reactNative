@@ -7,7 +7,7 @@ const SignIn = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       {/* <Text>SignIn</Text> */}
-      <View>
+      <View style={styles.signInImgSec}>
         <Image style={styles.signInIMG} source={require("../../assets/heroImage.png")} />
       </View>
       <Text style={styles.signInText}>Never Forget Your Nots</Text>
@@ -38,8 +38,11 @@ const styles = StyleSheet.create({
     marginTop: 30,
     
   },
+  signInImgSec: {
+    margin: 20,
+  },
   signInIMG:{
-    width: 250,
+    width: '100%',
     height: 250,
     alignSelf: 'center',
   },
