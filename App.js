@@ -1,4 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
+// import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -8,6 +8,9 @@ import Create from './src/screens/Create';
 import SignIn from './src/screens/SignIn';
 import SignUp from './src/screens/SignUp';
 import { DefaultTheme } from '@react-navigation/native';
+import { initializeApp } from "firebase/app";
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 // Default theme color change 
 const AppTheam = {
@@ -18,6 +21,18 @@ const AppTheam = {
   }
 }
 
+// Firebase 
+const firebaseConfig = {
+  apiKey: "AIzaSyDPl1IA4ufXgaeznYYBH_QSzrP7NgkdIiQ",
+  authDomain: "note-app-605cf.firebaseapp.com",
+  projectId: "note-app-605cf",
+  storageBucket: "note-app-605cf.appspot.com",
+  messagingSenderId: "585685158312",
+  appId: "1:585685158312:web:2cc177b2243a1a1891b59d"
+};
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
 
 export default function App() {
 

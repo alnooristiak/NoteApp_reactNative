@@ -2,12 +2,49 @@ import { Image, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } fro
 import React, { useState } from 'react'
 import Button from '../components/Button'
 import Inputs from '../components/Inputs'
-import { ReloadInstructions } from 'react-native/Libraries/NewAppScreen'
+import { ReloadInstructions } from 'react-native/Libraries/NewAppScreen';
+import {createUserWithEmailAndPassword} from "firebase/auth";
+import { auth, db } from '../../App';
+import { 
+  addDoc,
+  collection,
+  getDoc,
+  doc,
+  onSnapshot,
+  query,
+  where 
+} from 'firebase/firestore';
+
+
 
 const SignUp = ({ navigation }) => {
 
-  const [gender, setGender] = useState(null);
+  // const auth = getAuth();
 
+  const [gender, setGender] = useState(null);
+  const [email, setEmail] = useState(" ");
+  const [password, setPassword] = useState(" ");
+  const [fName, setFName] = useState(" ");
+  const [age, setAge] = useState(" ");
+
+  // create a new user 
+  const signup = async () => {
+    try {
+      const reasult = await createUserWithEmailAndPassword(auth, email, password);
+      await (addDoc, collection(db, 'users'), {
+        name: fName,
+        email: email,
+        age: age,
+        gender: gender,
+        uid: reasult.user.uid,
+      })
+      // console.log(reasult);
+    } catch (err){
+      console.log("OMG We got an error", err)
+    }
+  };
+
+  // redio gender option
   const genderOptions = ['Male', 'Female'];
 
   // const selected = true;
@@ -18,12 +55,15 @@ const SignUp = ({ navigation }) => {
 
       {/* Text inpute section email and password  */}
       <View style={styles.textInputSec}>
-        <Inputs placeholder='Email Address' />
-        <Inputs placeholder='Password' secureTextEntry />
+        <Inputs placeholder='Email Address' onChangeText={(text) => setEmail(text)} />
+        <Inputs placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
 
-        <TextInput style={styles.textInput} secureTextEntry placeholder='Full Name' />
-        <TextInput style={styles.textInput} secureTextEntry placeholder='Age' />
+        <TextInput style={styles.textInput} secureTextEntry placeholder='Full Name' onChangeText={(text) => setFName(text)} />
+        <TextInput style={styles.textInput} secureTextEntry placeholder='Age' onChangeText={(text) => setAge(text)} />
 
+        <View>
+          <Text>Select your Gender</Text>
+        </View>
         <View style={{ marginTop: 10, }}>
           {/* Readio Section */}
           {
@@ -53,7 +93,7 @@ const SignUp = ({ navigation }) => {
       </View>
 
       {/* Sign in section BTN  */}
-      <Button title={"Sign UP"} customeStyle={{ alignSelf: 'center', marginVertical: 60, }} />
+      <Button onPress={signup} title={"Sign UP"} customeStyle={{ alignSelf: 'center', marginVertical: 60, }} />
 
       {/* <View style={styles.dontHAccountSec}> */}
       <Pressable
