@@ -7,16 +7,41 @@ import Edit from './src/screens/Edit';
 import Create from './src/screens/Create';
 import SignIn from './src/screens/SignIn';
 import SignUp from './src/screens/SignUp';
+import { DefaultTheme } from '@react-navigation/native';
+
+// Default theme color change 
+const AppTheam = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: '#fff',
+  }
+}
+
 
 export default function App() {
+
+  const Stack = createNativeStackNavigator();
+
+  const user = false; // when are not authenticated
+
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={AppTheam}>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Edit" component={Edit} />
-        <Stack.Screen name="Create" component={Create} />
-        <Stack.Screen name="SignIn" component={SignIn} />
-        <Stack.Screen name="SignUp" component={SignUp} />
+        {
+          user ? (
+          <>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Edit" component={Edit} />
+            <Stack.Screen name="Create" component={Create} />
+          </>) 
+          : (
+          <>
+            <Stack.Screen name="SignIn" component={SignIn} 
+            options={{headerShown: false}} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+          </>
+          )}
       </Stack.Navigator>
     </NavigationContainer>
   );
